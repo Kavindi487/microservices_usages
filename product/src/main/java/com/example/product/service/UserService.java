@@ -17,7 +17,7 @@ public class UserService {
 
     @Autowired
     private ModelMapper modelMapper;
-    
+
     public List<UserDTO> getAllUsers(){
         List<User> users = userRepo.findAll();
         return modelMapper.map(userList,new TypeToken<List<UserDTO><(){}.getType());
