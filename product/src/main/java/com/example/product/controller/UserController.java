@@ -26,6 +26,13 @@ public class UserController {
         return userService.saveUsers(userDTO);
     }
 
-    @PostMapping
-    public UserDTO updateUser(@RequestBody UserDTO userDTO){}
+    @PostMapping("/updateUser")
+    public UserDTO updateUser(@RequestBody UserDTO userDTO){
+        return userService.updateUsers(userDTO);
+    }
+
+    @PostMapping("/deleteUser")
+    public String deleteUser(@RequestBody UserDTO userDTO){
+        return userService.deleteUsers(userDTO);
+    }
 }
