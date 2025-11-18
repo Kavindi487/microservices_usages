@@ -1,11 +1,13 @@
 package com.example.product.service;
 
 import com.example.product.dto.UserDTO;
+import com.example.product.model.User;
 import com.example.product.repo.UserRepo;
-import jakarta.transaction.Transactional;
-import org.modelmapper.internal.bytebuddy.description.method.MethodDescription;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,8 +20,13 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<UserDTO> getAllUsers(){
-        List<User> users = userRepo.findAll();
-        return modelMapper.map(userList,new TypeToken<List<UserDTO><(){}.getType());
+    public List<UserDTO> getAllUsers() {
+        List<User>userList = userRepo.findAll();
+        return modelMapper.map(userList, new TypeToken<List<UserDTO>>(){}.getType());
+    }
+
+    public UserDTO saveUsers(UserDTO userDTO) {
+        userRepo.save(modelMapper.map(userDTO, User.class));
+        return userDTO;
     }
 }
