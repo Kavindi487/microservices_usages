@@ -31,7 +31,10 @@ public class UserService {
     }
 
     public UserDTO updateUsers(UserDTO userDTO){
-        userRepo.save(modelmapper.map(userDTO, User.class));
+        userRepo.save(modelMapper.map(userDTO, User.class));
         return userDTO;
+    }
+
+    public String deleteUsers(UserDTO userDTO) {
     }
 }

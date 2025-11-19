@@ -33,6 +33,6 @@ public class UserController {
 
     @PostMapping("/deleteUser")
     public String deleteUser(@RequestBody UserDTO userDTO){
-        return userService.deleteUser(@RequestBody ;
+        return userService.deleteUsers(userDTO);
     }
 }
