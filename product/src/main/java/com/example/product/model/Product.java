@@ -10,8 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class User {
+public class Product {
     @Id
     private int id;
-    private String name;
+    private int productId;
+    private String productName;
+    private String description;
+    private int forSale;
 }
