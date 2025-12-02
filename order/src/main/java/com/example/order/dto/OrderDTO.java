@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class UserDTO {
+public class OrderDTO {
     @Id
     private int id;
     private String name;

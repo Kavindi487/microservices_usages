@@ -35,8 +35,8 @@ public class InventoryService {
         return inventoryDTO;
     }
 
-    public String deleteItem(Integer itemId) {
-        inventoryRepo.deleteById(itemId);
+    public String deleteItem(Integer id) {
+        inventoryRepo.deleteById(id);
         return "Item deleted";
     }
 
