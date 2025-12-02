@@ -14,6 +14,7 @@ import java.util.List;
 @Service
 @Transactional
 public class ProductService {
+
     @Autowired
     private ProductRepo productRepo;
 
@@ -21,7 +22,7 @@ public class ProductService {
     private ModelMapper modelMapper;
 
     public List<ProductDTO> getAllProducts() {
-        List<Product>productList = productRepo.findAll();
+        List<Product> productList = productRepo.findAll();
         return modelMapper.map(productList, new TypeToken<List<ProductDTO>>(){}.getType());
     }
 
@@ -41,7 +42,7 @@ public class ProductService {
     }
 
     public ProductDTO getProductById(Integer productId) {
-        Product product = productRepo.getProductById(productId);
+        Product product = productRepo.findById(productId).orElse(null);
         return modelMapper.map(product, ProductDTO.class);
     }
 }
