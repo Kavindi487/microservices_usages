@@ -47,6 +47,9 @@ public class OrderService {
     // GET ORDER BY ID
     public OrderDTO getOrderById(Integer id) {
         Order order = orderRepo.findById(id).orElse(null);
+        if (order == null) {
+            return null; // Or throw new EntityNotFoundException("Order not found");
+        }
         return modelMapper.map(order, OrderDTO.class);
     }
 }

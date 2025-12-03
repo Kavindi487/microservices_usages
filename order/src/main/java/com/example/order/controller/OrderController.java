@@ -3,6 +3,7 @@ package com.example.order.controller;
 import com.example.order.dto.OrderDTO;
 import com.example.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -40,7 +41,11 @@ public class OrderController {
 
     // GET ORDER BY ID
     @GetMapping("/{id}")
-    public OrderDTO getOrderById(@PathVariable Integer id) {
-        return orderService.getOrderById(id);
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable Integer id) {
+        OrderDTO order = orderService.getOrderById(id);
+        if (order == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(order);
     }
 }
