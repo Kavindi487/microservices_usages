@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "api/v1/")
+@RequestMapping(value = "api/v1/inventry")
 public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
@@ -36,7 +36,6 @@ public class InventoryController {
 
     @DeleteMapping("/deleteitem/{itemId}")
     public String deleteItem(@PathVariable Integer itemId) {
-
         return inventoryService.deleteItem(itemId);
     }
 }

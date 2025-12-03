@@ -20,23 +20,33 @@ public class OrderService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<OrderDTO> getAllUsers() {
+    // GET ALL ORDERS
+    public List<OrderDTO> getAllOrders() {
         List<Order> orderList = orderRepo.findAll();
-        return modelMapper.map(orderList, new TypeToken<List<OrderDTO>>(){}.getType());
+        return modelMapper.map(orderList, new TypeToken<List<OrderDTO>>() {}.getType());
     }
 
-    public OrderDTO saveUsers(OrderDTO orderDTO) {
+    // SAVE ORDER
+    public OrderDTO saveOrder(OrderDTO orderDTO) {
         orderRepo.save(modelMapper.map(orderDTO, Order.class));
         return orderDTO;
     }
 
-    public OrderDTO updateUsers(OrderDTO orderDTO) {
+    // UPDATE ORDER
+    public OrderDTO updateOrder(OrderDTO orderDTO) {
         orderRepo.save(modelMapper.map(orderDTO, Order.class));
         return orderDTO;
     }
 
-    public String deleteUsers(OrderDTO orderDTO) {
-        orderRepo.delete(modelMapper.map(orderDTO, Order.class));
-        return "user deleted";
+    // DELETE ORDER BY ID
+    public String deleteOrder(Integer id) {
+        orderRepo.deleteById(id);
+        return "Order deleted";
+    }
+
+    // GET ORDER BY ID
+    public OrderDTO getOrderById(Integer id) {
+        Order order = orderRepo.findById(id).orElse(null);
+        return modelMapper.map(order, OrderDTO.class);
     }
 }

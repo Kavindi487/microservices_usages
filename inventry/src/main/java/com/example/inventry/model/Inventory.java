@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-//@Table(name = "inventory") // <-- use your actual DB table name
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
