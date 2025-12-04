@@ -1,7 +1,7 @@
 package com.example.order.service;
 
 import com.example.order.dto.OrderDTO;
-import com.example.order.model.Order;
+import com.example.order.model.Orders;
 import com.example.order.repo.OrderRepo;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,19 +22,19 @@ public class OrderService {
 
     // GET ALL ORDERS
     public List<OrderDTO> getAllOrders() {
-        List<Order> orderList = orderRepo.findAll();
-        return modelMapper.map(orderList, new TypeToken<List<OrderDTO>>() {}.getType());
+        List<Orders> ordersList = orderRepo.findAll();
+        return modelMapper.map(ordersList, new TypeToken<List<OrderDTO>>() {}.getType());
     }
 
     // SAVE ORDER
     public OrderDTO saveOrder(OrderDTO orderDTO) {
-        orderRepo.save(modelMapper.map(orderDTO, Order.class));
+        orderRepo.save(modelMapper.map(orderDTO, Orders.class));
         return orderDTO;
     }
 
     // UPDATE ORDER
     public OrderDTO updateOrder(OrderDTO orderDTO) {
-        orderRepo.save(modelMapper.map(orderDTO, Order.class));
+        orderRepo.save(modelMapper.map(orderDTO, Orders.class));
         return orderDTO;
     }
 
@@ -46,10 +46,10 @@ public class OrderService {
 
     // GET ORDER BY ID
     public OrderDTO getOrderById(Integer id) {
-        Order order = orderRepo.findById(id).orElse(null);
-        if (order == null) {
+        Orders orders = orderRepo.findById(id).orElse(null);
+        if (orders == null) {
             return null; // Or throw new EntityNotFoundException("Order not found");
         }
-        return modelMapper.map(order, OrderDTO.class);
+        return modelMapper.map(orders, OrderDTO.class);
     }
 }
