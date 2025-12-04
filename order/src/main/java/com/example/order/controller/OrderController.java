@@ -3,49 +3,40 @@ package com.example.order.controller;
 import com.example.order.dto.OrderDTO;
 import com.example.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/v1/order")
+@RequestMapping(value = "api/v1/order")
 public class OrderController {
-
     @Autowired
     private OrderService orderService;
 
-    // GET ALL ORDERS
-    @GetMapping("/get")
+
+    @GetMapping("/getorders")
     public List<OrderDTO> getOrders() {
         return orderService.getAllOrders();
     }
 
-    // ADD ORDER
+    @GetMapping("/{orderId}")
+    public OrderDTO getOrderById(@PathVariable Integer orderId) {
+        return orderService.getOrderById(orderId);
+    }
+
     @PostMapping("/add")
     public OrderDTO saveOrder(@RequestBody OrderDTO orderDTO) {
         return orderService.saveOrder(orderDTO);
     }
 
-    // UPDATE ORDER
-    @PutMapping("/update")
+    @PutMapping("/updateorder")
     public OrderDTO updateOrder(@RequestBody OrderDTO orderDTO) {
         return orderService.updateOrder(orderDTO);
     }
 
-    // DELETE ORDER
-    @DeleteMapping("/delete/{id}")
-    public String deleteOrder(@PathVariable Integer id) {
-        return orderService.deleteOrder(id);
-    }
-
-    // GET ORDER BY ID
-    @GetMapping("/{id}")
-    public ResponseEntity<OrderDTO> getOrderById(@PathVariable Integer id) {
-        OrderDTO order = orderService.getOrderById(id);
-        if (order == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(order);
+    @DeleteMapping("/deleteorder/{orderId}")
+    public String deleteOrder(@PathVariable Integer orderId) {
+        return orderService.deleteOrder(orderId);
     }
 }

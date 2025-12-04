@@ -3,6 +3,7 @@ package com.example.order.service;
 import com.example.order.dto.OrderDTO;
 import com.example.order.model.Orders;
 import com.example.order.repo.OrderRepo;
+import jakarta.persistence.criteria.Order;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +46,8 @@ public class OrderService {
     }
 
     // GET ORDER BY ID
-    public OrderDTO getOrderById(Integer id) {
-        Orders orders = orderRepo.findById(id).orElse(null);
-        if (orders == null) {
-            return null; // Or throw new EntityNotFoundException("Order not found");
-        }
-        return modelMapper.map(orders, OrderDTO.class);
+    public OrderDTO getOrderById(Integer orderId) {
+        Orders order = orderRepo.findById(orderId).orElse(null);
+        return modelMapper.map(order, OrderDTO.class);
     }
 }
