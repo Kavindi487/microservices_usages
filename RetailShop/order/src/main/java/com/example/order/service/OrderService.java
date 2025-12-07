@@ -45,13 +45,19 @@ public class OrderService {
                     .retrieve()
                     .bodyToMono(InventoryDTO.class)
                     .block();
+            assert inventoryResponse != null;
+           if(inventoryResponse.getQuantity() > 0){
+               orderRepo.save(modelMapper.map(orderDTO, Orders.class));
+               return orderDTO;
+           }else{
+               return "Item not available";
+           }
 
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        orderRepo.save(modelMapper.map(orderDTO, Orders.class));
-        return orderDTO;
+
     }
 
     // UPDATE ORDER
