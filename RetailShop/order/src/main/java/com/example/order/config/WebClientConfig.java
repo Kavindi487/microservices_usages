@@ -15,11 +15,11 @@ public class WebClientConfig {
 
     @Bean
     public WebClient inventoryWebClient() {
-        return webClientBuilder().baseUrl("http://localhost:8080/inventory").build();
+        return webClientBuilder().baseUrl("http://localhost:8080/inventry").build();
     }
 
     @Bean
     public WebClient productWebClient() {
-        return webClientBuilder().baseUrl("http://localhost:8082/products").build();
+        return webClientBuilder().baseUrl("http://localhost:8082/product").build();
     }
 }
