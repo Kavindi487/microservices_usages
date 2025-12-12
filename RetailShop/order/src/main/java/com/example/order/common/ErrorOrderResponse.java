@@ -1,7 +1,11 @@
 package com.example.order.common;
+import lombok.Getter;
 
-import java.io.Serializable;
+@Getter
+public class ErrorOrderResponse extends OrderResponse {
+    private final String erroMessage;
 
-public class ErrorOrderResponse implements OrderResponse{
-    private
+    public ErrorOrderResponse(String erroMessage) {
+        this.erroMessage = erroMessage;
+    }
 }
