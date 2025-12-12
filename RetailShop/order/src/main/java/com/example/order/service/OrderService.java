@@ -48,7 +48,18 @@ public class OrderService {
                     .retrieve()
                     .bodyToMono(InventoryDTO.class)
                     .block();
+
             assert inventoryResponse != null;
+
+            Integer productId = inventoryResponse.getProductId();
+
+            ProductDTO productResponse = productWebClient.get()
+                    .uri(uriBuilder -> uriBuilder.path("/product/{productId}").build(productId))
+                    .retrieve()
+                    .bodyToMono(ProductDTO.class)
+                    .block();
+
+            assert productResponse != null;
 
            if(inventoryResponse.getQuantity() > 0){
                if (productResponse.getForSale() == 1) {
