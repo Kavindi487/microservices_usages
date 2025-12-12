@@ -1,6 +1,8 @@
 package com.example.order.service;
 
 import com.example.inventry.dto.InventoryDTO;
+import com.example.order.common.ErrorOrderResponse;
+import com.example.order.common.SuccessOrderResponse;
 import com.example.order.dto.OrderDTO;
 import com.example.order.model.Orders;
 import com.example.order.repo.OrderRepo;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.List;
 
@@ -46,15 +49,23 @@ public class OrderService {
                     .bodyToMono(InventoryDTO.class)
                     .block();
             assert inventoryResponse != null;
+
            if(inventoryResponse.getQuantity() > 0){
-               orderRepo.save(modelMapper.map(orderDTO, Orders.class));
-               return orderDTO;
+               if (productResponse.getForSale() == 1) {
+                   orderRepo.save(modelMapper.map(OrderDTO, Orders.class));
+               }
+               else {
+                   return new ErrorOrderResponse("This item is not for sale");
+               }
+               return new SuccessOrderResponse(OrderDTO);
            }else{
-               return "Item not available";
+               return new ErrorOrderResponse("Item not available, please try later");
            }
 
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (WebClientResponseException e){
+            if (e.getStatusCode().is5xxServerError()) {
+                return new ErrorOrderResponse("Item not found");
+            }
         }
 
         return null;
