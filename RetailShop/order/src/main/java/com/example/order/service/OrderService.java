@@ -8,7 +8,6 @@ import com.example.order.dto.OrderDTO;
 import com.example.order.model.Orders;
 import com.example.order.repo.OrderRepo;
 import com.example.product.dto.ProductDTO;
-import jakarta.persistence.criteria.Order;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,17 +66,17 @@ public class OrderService {
 
             assert productResponse != null;
 
-           if(inventoryResponse.getQuantity() > 0){
-               if (productResponse.getForSale() == 1) {
-                   orderRepo.save(modelMapper.map(OrderDTO, Orders.class));
-               }
-               else {
-                   return new ErrorOrderResponse("This item is not for sale");
-               }
-               return new SuccessOrderResponse(OrderDTO);
-           }else{
-               return new ErrorOrderResponse("Item not available, please try later");
-           }
+            if(inventoryResponse.getQuantity() > 0){
+                if (productResponse.getForSale() == 1) {
+                    orderRepo.save(modelMapper.map(orderDTO, Orders.class));
+                } else {
+                    return new ErrorOrderResponse("This item is not for sale");
+                }
+                return new SuccessOrderResponse(orderDTO);
+            } else {
+                return new ErrorOrderResponse("Item not available, please try later");
+            }
+
 
         }catch (WebClientResponseException e){
             if (e.getStatusCode().is5xxServerError()) {
