@@ -2,10 +2,12 @@ package com.example.order.service;
 
 import com.example.inventry.dto.InventoryDTO;
 import com.example.order.common.ErrorOrderResponse;
+import com.example.order.common.OrderResponse;
 import com.example.order.common.SuccessOrderResponse;
 import com.example.order.dto.OrderDTO;
 import com.example.order.model.Orders;
 import com.example.order.repo.OrderRepo;
+import com.example.product.dto.ProductDTO;
 import jakarta.persistence.criteria.Order;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -20,7 +22,8 @@ import java.util.List;
 @Service
 @Transactional
 public class OrderService {
-    private final WebClient webClient;
+    private final WebClient inventoryWebClient;
+    private final WebClient productWebClient;
 
     @Autowired
     private OrderRepo orderRepo;
@@ -28,8 +31,11 @@ public class OrderService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public OrderService(WebClient webClient) {
-        this.webClient = webClient;
+    public OrderService(WebClient inventoryWebClient, WebClient productWebClient, OrderRepo orderRepo, ModelMapper modelMapper) {
+        this.inventoryWebClient = inventoryWebClient;
+        this.productWebClient = productWebClient;
+        this.orderRepo = orderRepo;
+        this.modelMapper = modelMapper;
     }
 
     // GET ALL ORDERS
@@ -39,12 +45,12 @@ public class OrderService {
     }
 
     // SAVE ORDER
-    public OrderDTO saveOrder(OrderDTO orderDTO) {
+    public OrderResponse saveOrder(OrderDTO orderDTO) {
         Integer itemId = orderDTO.getItemId();
 
         try{
-           InventoryDTO inventoryResponse = webClient.get()
-                    .uri(uriBuilder ->uriBuilder.path("/api/v1/orders/{id}").build(itemId))
+           InventoryDTO inventoryResponse = inventoryWebClient.get()
+                    .uri(uriBuilder ->uriBuilder.path("/item/{itemId}").build(itemId))
                     .retrieve()
                     .bodyToMono(InventoryDTO.class)
                     .block();
